@@ -2,3 +2,5 @@
 .vscode
 .idea
 *.gz
+env.toml
+
