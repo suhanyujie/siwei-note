@@ -11,3 +11,5 @@
 ## reference
 * https://dev.yinxiang.com/
 * stackoverflow search https://github.com/samtay/so
+* https://github.com/seanmonstar/reqwest
+* Rust 语言之旅 https://tourofrust.com/
