@@ -5,7 +5,7 @@ extern crate tokio_test;
 use reqwest::Error;
 
 use super::const_var::*;
-use std::{fmt::format, time::Duration};
+use std::{fmt::format, io::IntoInnerError, time::Duration};
 
 struct AuthHandler {
     is_sandbox: bool,
@@ -30,12 +30,36 @@ impl AuthHandler {
 
     pub async fn get_credentials(&self) -> Result<String, Error> {
         let api_url = self.get_base_url("");
+        println!("{}", api_url);
         let client = reqwest::Client::builder()
-            .timeout(Duration::from_millis(1000))
+            .timeout(Duration::from_millis(2000))
             .build()
             .unwrap();
-        let body = client.get(api_url).send().await?.text().await?;
-        Ok(body)
+        let body_param = AuthHandler::get_auth_param();
+        let resp_body = client
+            .post(api_url)
+            .header(
+                "Authorization",
+                "Bearer e470e83254161fff2e166032c1cc9139e883b906d4c857092ecbc9f23c0cf82b",
+            )
+            .header("Contet-Type", "application/json")
+            .body(body_param)
+            .send()
+            .await?
+            .text()
+            .await?;
+
+        Ok(resp_body)
+    }
+
+    pub fn get_auth_param() -> &'static str {
+        return r#"{
+            "client_id": "a3d847c065114fefa86421638555f2969e0f9f5377b13b005f98b84f950f9961",
+            "client_secret": "b0b287656b61c9ae297319e4139c4b891480f3d38f652a765f5b66a4af56c244",
+            "code": "e470e83254161fff2e166032c1cc9139e883b906d4c857092ecbc9f23c0cf82b",
+            "grant_type": "authorization_code",
+            "redirect_uri": "urn:ietf:wg:oauth:2.0:oob"
+        }"#;
     }
 
     pub fn get_base_url(&self, prefix: &str) -> String {
@@ -89,6 +113,7 @@ mod tests {
     fn test_get_credentials() {
         let h = AuthHandler::new();
         let res = aw1!(h.get_credentials());
-        assert_ok!(res);
+        println!("{:?}", res);
+        assert!(false);
     }
 }

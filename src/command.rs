@@ -16,9 +16,6 @@ impl<'a, 'b> SiWeiApp<'a, 'b> {
 }
 
 /// todo
-fn run() {}
-
-/// todo
 pub fn get_app<'a, 'b>() -> App<'a, 'b> {
     let app = App::new("note")
         .version("0.1.0")
@@ -50,6 +47,15 @@ pub fn get_app<'a, 'b>() -> App<'a, 'b> {
 }
 
 pub fn handle_app(app: App) -> Result<(), clap::Error> {
+    // 获取配置文件
+    let config = super::config::DevConfig::get_config();
+    if config.is_err() {
+        return Err(clap::Error {
+            message: "invalid config...".to_string(),
+            kind: clap::ErrorKind::InvalidValue,
+            info: Some(vec![]),
+        });
+    }
     let arg_matchs = app.get_matches();
     if let Some(sub_m) = arg_matchs.subcommand_matches("note") {
         if let Some(key_value_str) = sub_m.value_of("create") {

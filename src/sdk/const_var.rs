@@ -1,2 +1,6 @@
 pub const BASE_URL: &str = "https://www.www.baidu.com";
-pub const BASE_URL_SANDBOX: &str = "https://open.feishu.cn/open-apis/auth/v3/app_access_token/";
+
+// 测试环境地址
+pub const BASE_URL_SANDBOX: &str = "https://tower.im/oauth/token";
+
+pub const AUTH_URL1: &str = "https://www.getpostman.com/oauth2/callback";

@@ -1,4 +1,5 @@
 mod command;
+mod config;
 mod sdk;
 use clap::Error;
 

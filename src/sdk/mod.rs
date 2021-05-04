@@ -1,6 +1,7 @@
-pub mod auth;
+pub(crate) mod auth;
 pub mod const_var;
 pub mod enml;
+pub mod error;
 pub mod note;
 pub mod note_store;
 pub mod notebook;
